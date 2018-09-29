@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Movie List </title>
+</head>
+<body>
+	<h1> Movie List </h1>
+	<div>
+		<p>
+			<a href="/movienight/"> Go Back </a>
+		</p>
+	</div>
+	<div>
+	{% for movie in movies %}
+		<p> {{ movie.title }} {{ movie.genres }} </p>
+	{% endfor %}
+	</div>
+</body>
+</html>

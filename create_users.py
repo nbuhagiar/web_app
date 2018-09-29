@@ -21,11 +21,11 @@ def main():
 	user_names.extend([(names.get_first_name(gender="male"), "male") 
 		               for i in range(len(user_ids)//2)])
 	users = pd.DataFrame(user_names, 
-		                 columns=["Name", "Gender"], 
+		                 columns=["name", "gender"], 
 		                 index=user_ids)
-	users["Age"] = randint(18, 39, len(users))
+	users["age"] = randint(18, 39, len(users))
 	users = users.sample(frac=1)
-	users.to_csv("users.csv")
+	users.to_csv("users.csv", index_label="userId")
 
 if __name__ == "__main__":
 	main()
