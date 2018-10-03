@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import func
 from setup_database import Base, Movie, User
@@ -28,14 +28,14 @@ def recommend_movie():
 	if request.method == "POST":
 		if request.form["random"]:
 			recommendation = db.session.query(Movie).order_by(func.random()).first()
-			return render_template("recommended_movie.html", 
-				                   recommendation=recommendation)
+		return redirect(url_for("movie_recommendation_page", movieId=recommendation.movieId))
 	else:
 		return render_template("movie_recommender.html")
 
-@app.route("/movienight/movierecommender/recommended_movie")
-def movie_recommendation_page():
-	return render_template("recommended_movie.html")
+@app.route("/movienight/movierecommender/recommended_movie/<int:movieId>/")
+def movie_recommendation_page(movieId):
+	movie = db.session.query(Movie).filter_by(movieId=movieId).one()
+	return render_template("recommended_movie.html", movie=movie)
 
 @app.route("/lookingforsomeone/")
 def recommend_partner():
