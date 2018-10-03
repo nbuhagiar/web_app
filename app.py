@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import func
 from setup_database import Base, Movie, User
+from recommender_system import recommender_system
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///movies.db"
@@ -26,8 +27,11 @@ def show_movies():
 @app.route("/movienight/movierecommender/", methods=["GET", "POST"])
 def recommend_movie():
 	if request.method == "POST":
-		if request.form["random"]:
+		if request.form.get("random"):
 			recommendation = db.session.query(Movie).order_by(func.random()).first()
+		if request.form.get("recommend"):
+			rec_title = recommender_system(dict(request.form))
+			recommendation = db.session.query(Movie).filter_by(title=rec_title).one()
 		return redirect(url_for("movie_recommendation_page", movieId=recommendation.movieId))
 	else:
 		return render_template("movie_recommender.html")
