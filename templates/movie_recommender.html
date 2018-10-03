@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Recommended Me a Film </title>
+</head>
+<body>
+	<h1> Recommend Me a Film </h1>
+	<div>
+		<p>
+			<a href="/movienight/"> Go Back </a>
+		</p>
+	</div>
+	<div>
+		<form action="{{url_for('recommend_movie')}}" method="POST">
+			<input type="submit" name="random" value="Random Recommendation">
+		</form>
+	</div>
+</body>
+</html>
