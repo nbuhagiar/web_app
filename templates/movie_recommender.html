@@ -15,5 +15,47 @@
 			<input type="submit" name="random" value="Random Recommendation">
 		</form>
 	</div>
+	<h2> Recommendation Criteria </h2>
+	<div>
+		<form action="{{url_for('recommend_movie')}}" method="POST">
+			Oldest Year of Release:
+			<input type="number" min="1900" max="2018" step="1" name="oldest" value="2018">
+			<br>
+			Newest Year of Release:
+			<input type="number" min="1900" max="2018" step="1" name="newest" value="2018">
+			<br><br>
+			Genres of Interest:
+			<br>
+			<input type="checkbox" name="action"> Action <br>
+			<input type="checkbox" name="adult"> Adult <br>
+			<input type="checkbox" name="adventure"> Adventure <br>
+			<input type="checkbox" name="animation"> Animation <br>
+			<input type="checkbox" name="biography"> Biography <br>
+			<input type="checkbox" name="comedy"> Comedy <br>
+			<input type="checkbox" name="crime"> Crime <br>
+			<input type="checkbox" name="documentary"> Documentary <br>
+			<input type="checkbox" name="drama"> Drama <br>
+			<input type="checkbox" name="family"> Family <br>
+			<input type="checkbox" name="fantasy"> Fantasy <br>
+			<input type="checkbox" name="filmNoir"> Film Noir<br>
+			<input type="checkbox" name="gameShow"> Game Show <br>
+			<input type="checkbox" name="history"> History <br>
+			<input type="checkbox" name="horror"> Horror <br>
+			<input type="checkbox" name="music"> Music <br>
+			<input type="checkbox" name="musical"> Musical <br>
+			<input type="checkbox" name="mystery"> Mystery <br>
+			<input type="checkbox" name="news"> News <br>
+			<input type="checkbox" name="realityTV"> Reality TV <br>
+			<input type="checkbox" name="romance"> Romance <br>
+			<input type="checkbox" name="sciFi"> Science Fiction <br>
+			<input type="checkbox" name="short"> Short <br>
+			<input type="checkbox" name="sport"> Sports <br>
+			<input type="checkbox" name="talkShow"> Talk Show <br>
+			<input type="checkbox" name="thriller"> Thriller <br>
+			<input type="checkbox" name="war"> War <br>
+			<input type="checkbox" name="western"> Western <br>
+			<input type="submit" value="Recommend Film"
+		</form>
+	</div>
 </body>
 </html>

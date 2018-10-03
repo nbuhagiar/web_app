@@ -3,7 +3,7 @@
 # Create SQLite database consisting of all datasets
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, ForeignKey, Integer, String, Float
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, Binary
 from sqlalchemy import create_engine
 import pandas as pd
 
@@ -17,9 +17,36 @@ class Movie(Base):
 	imdbLink = Column(String(250))
 	title = Column(String(250))
 	imdbScore = Column(Float)
-	genres = Column(String(250))
 	poster = Column(String(250))
 	year = Column(Integer)
+	action = Column(Binary)
+	adult = Column(Binary)
+	adventure = Column(Binary)
+	animation = Column(Binary)
+	biography = Column(Binary)
+	comedy = Column(Binary)
+	crime = Column(Binary)
+	documentary = Column(Binary)
+	drama = Column(Binary)
+	family = Column(Binary)
+	fantasy = Column(Binary)
+	filmNoir = Column(Binary)
+	gameShow = Column(Binary)
+	history = Column(Binary)
+	horror = Column(Binary)
+	music = Column(Binary)
+	musical = Column(Binary)
+	mystery = Column(Binary)
+	news = Column(Binary)
+	realityTV = Column(Binary)
+	romance = Column(Binary)
+	sciFi = Column(Binary)
+	short = Column(Binary)
+	sport = Column(Binary)
+	talkShow = Column(Binary)
+	thriller = Column(Binary)
+	war = Column(Binary)
+	western = Column(Binary)
 
 class User(Base):
 
@@ -46,7 +73,16 @@ def main():
 	                  "poster", 
 	                  "title", 
 	                  "year"]
-	movies.year.replace(r"\D", "", regex=True, inplace=True,)
+	movies.year.replace(r"\D", "", regex=True, inplace=True)
+	movies = movies.join(movies.genres.str.get_dummies())
+	movies.drop("genres", axis=1, inplace=True)
+	movies.columns = [column.lower() for column in movies.columns]
+	movies.rename(columns={"film-noir": "filmNoir", 
+		                   "game-show": "gameShow", 
+		                   "reality-tv": "realityTV", 
+		                   "sci-fi": "sciFi", 
+		                   "talk-show": "talkShow"}, 
+		          inplace=True)	
 	movies.to_sql("movie", 
 		          con=engine, 
 		          if_exists="append", 
