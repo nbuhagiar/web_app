@@ -30,7 +30,12 @@ def recommend_movie():
 		if request.form.get("random"):
 			recommendation = db.session.query(Movie).order_by(func.random()).first()
 		if request.form.get("recommend"):
-			rec_title = recommender_system(dict(request.form))
+			try:
+				rec_title = recommender_system(dict(request.form))
+			except ValueError:
+				# ADD FLASH MESSAGE THAT RESTRICTIONS WERE TOO NARROW OR 
+				# DATE RANGE WAS INCORRECT
+				return render_template("movie_recommender.html")
 			recommendation = db.session.query(Movie).filter_by(title=rec_title).one()
 		return redirect(url_for("movie_recommendation_page", movieId=recommendation.movieId))
 	else:
