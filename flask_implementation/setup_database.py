@@ -60,7 +60,7 @@ def main():
 
     engine = create_engine("sqlite:///movies.db")
     Base.metadata.create_all(engine)
-    movies = pd.read_csv("MovieGenre.csv", encoding="latin-1")
+    movies = pd.read_csv("../MovieGenre.csv", encoding="latin-1")
     movies[["title", "year"]] = pd.DataFrame(movies["Title"].str
                                                             .rsplit(" ", 1)
                                                             .values
