@@ -3,6 +3,7 @@
 from sqlalchemy import create_engine
 import pandas as pd
 from numpy.random import choice
+import numpy as np
 
 def recommender_system(prefs):
 
@@ -20,8 +21,14 @@ def recommender_system(prefs):
                          for pref in prefs.keys()]
     interested_movies = data.loc[[movie for movie_list in interested_movies 
                                         for movie in movie_list]]
-    interested_movies.imdbScore = interested_movies.imdbScore / interested_movies.imdbScore.sum()
-    return choice(interested_movies.title, p=interested_movies.imdbScore)
+    interested_movies.imdbScore = (interested_movies.imdbScore 
+                                   / interested_movies.imdbScore.sum())\
+                                  .fillna(0)
+    recommendation = choice(interested_movies.title, 
+                            p=interested_movies.imdbScore)
+    return interested_movies.loc[interested_movies.title == recommendation]\
+                            [["title", "year"]]\
+                            .values[0]
 
 def main():
 
