@@ -13,43 +13,43 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def home():
-	return render_template("home.html")
+    return render_template("home.html")
 
 @app.route("/movienight/")
 def movie_night():
-	return render_template("movie_night.html")
+    return render_template("movie_night.html")
 
 @app.route("/movienight/movielist/")
 def show_movies():
-	movies = db.session.query(Movie).all()
-	return render_template("movie_list.html", movies=movies)
+    movies = db.session.query(Movie).all()
+    return render_template("movie_list.html", movies=movies)
 
 @app.route("/movienight/movierecommender/", methods=["GET", "POST"])
 def recommend_movie():
-	if request.method == "POST":
-		if request.form.get("random"):
-			recommendation = db.session.query(Movie).order_by(func.random()).first()
-		if request.form.get("recommend"):
-			try:
-				rec_title = recommender_system(dict(request.form))
-			except ValueError:
-				# ADD FLASH MESSAGE THAT RESTRICTIONS WERE TOO NARROW OR 
-				# DATE RANGE WAS INCORRECT
-				return render_template("movie_recommender.html")
-			recommendation = db.session.query(Movie).filter_by(title=rec_title).one()
-		return redirect(url_for("movie_recommendation_page", movieId=recommendation.movieId))
-	else:
-		return render_template("movie_recommender.html")
+    if request.method == "POST":
+        if request.form.get("random"):
+            recommendation = db.session.query(Movie).order_by(func.random()).first()
+        if request.form.get("recommend"):
+            try:
+                rec_title = recommender_system(dict(request.form))
+            except ValueError:
+                # ADD FLASH MESSAGE THAT RESTRICTIONS WERE TOO NARROW OR 
+                # DATE RANGE WAS INCORRECT
+                return render_template("movie_recommender.html")
+            recommendation = db.session.query(Movie).filter_by(title=rec_title).one()
+        return redirect(url_for("movie_recommendation_page", movieId=recommendation.movieId))
+    else:
+        return render_template("movie_recommender.html")
 
 @app.route("/movienight/movierecommender/recommended_movie/<int:movieId>/")
 def movie_recommendation_page(movieId):
-	movie = db.session.query(Movie).filter_by(movieId=movieId).one()
-	return render_template("recommended_movie.html", movie=movie)
+    movie = db.session.query(Movie).filter_by(movieId=movieId).one()
+    return render_template("recommended_movie.html", movie=movie)
 
 @app.route("/lookingforsomeone/")
 def recommend_partner():
-	return render_template("looking_for_someone.html")
+    return render_template("looking_for_someone.html")
 
 if __name__ == "__main__":
-	app.debug = True
-	app.run(host="0.0.0.0", port=5000)
+    app.debug = True
+    app.run(host="0.0.0.0", port=5000)
